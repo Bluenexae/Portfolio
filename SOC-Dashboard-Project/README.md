@@ -9,7 +9,7 @@ IP reputation lookups.
 - pfSense firewall (bare metal) with router-on-a-stick architecture
 - TP-Link TL-SG108PE managed switch with 802.1Q VLAN segmentation
 - VLANs: Management (10), Main LAN (20), IoT (30), WAN (40)
-- Project taken offline following APT28 TP-Link exploitation campaign
+- I thought my tplink was affected but it was not by the APT28 TP-Link exploitation campaign :D
 
 ## Setup
 
