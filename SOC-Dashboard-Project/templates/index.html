@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SOC Dashboard</title>
+    <style>
+	body {
+	    background-color: #89b6d9;
+	    color: #b7bcc4;
+	    font-family: Arial, sans-serif;
+	    margin: 0;
+	    padding: 0;
+	}
+
+	header {
+	    background-color: #384c7d;
+	    padding: 20px;
+	    text-align: center;
+	    font-size: 24px;
+	    font-weight: bold;
+	}
+
+	section {
+	    margin: 30px;
+	}
+
+	table {
+	    width: 100%;
+	    border-collapse: collapse;
+	    background-color: #b6e7f0;
+	}
+
+	th, td {
+	    padding: 12px;
+	    text-align: left;
+	}
+	
+	th {
+	   background-color: #7b8bba;
+	}
+	
+	tr:nth-child(even) {
+	    background-color: #b6e7f0;
+	}
+
+	tr:hover {
+	    background-color: #7b8bba;
+
+	}
+
+	.dashboard {
+	    display: flex;
+	    gap: 20px;
+	    flex-wrap: wrap;
+	}
+
+	.card {
+	    background-color: #ffffff;
+	    padding: 20px;
+	    margin-bottom: 20px;
+	    border-radius: 8px;
+	    border: 1px solid #000000;
+	    flex: 1;
+	    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+	}
+
+	.attempts-high {
+		color: red;
+	}
+
+	.attempts-normal {
+		color: black;
+	}
+
+	/* Risk levels */
+	.low-risk {
+	    border-left: 6px solid #22c55e; /*green*/
+	}
+
+	.medium-risk {
+	    border-left: 6px solid #facc15; /*yellow*/
+	}
+	
+	.high-risk {
+	    border-left: 6px solid #ef4444; /*red*/
+	}
+
+
+    </style>
+</head>
+
+<body>
+
+<header>
+    SOC Telemetry Dashboard
+</header>
+
+{% for entry in suspicious_ips %}
+
+<div class="card
+	{% if entry.attempts > 20 %}
+	    high-risk
+	{% elif entry.attempts > 10 %}
+	    medium-risk
+	{% else %}
+	    low-risk
+	{% endif %}
+">
+
+	<h3>{{ entry.ip }}</h3>
+	<p>Failed Attempts: {{ entry.attempts }}</p>
+</div>
+
+{% endfor %}
+
+
+
+<section class="dashboard">
+	<div class="card">
+	<h2>Summary</h2>
+	<p>Total Suspicious IPs: {{suspicious_ips|length }}</p>
+	</div>
+	<div class="card">
+	<h2>Suspicious IP Addresses</h2>
+	<table>
+	    <tr>
+		<th>IP Address</th>
+		<th>Failed Attempts</th>
+	    </tr>
+	    {% for entry in suspicious_ips %}
+	    <tr>
+		<td>{{ entry.ip }}</td>
+		<td class="{{ 'attempts-high' if entry.attempts > 20 else 'attempts-normal' }}">
+		    {{ entry.attempts }}
+		</td>
+	    </tr>
+	    {% endfor %}
+	</table>
+        </div>
+</section>
+
+</body>
+</html>
+	

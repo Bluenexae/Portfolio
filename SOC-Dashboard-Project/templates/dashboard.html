@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SOC Dashboard</title>
+    <style>
+	body {
+	    background-color: #89b6d9;
+	    color: #b7bcc4;
+	    font-family: Arial, sans-serif;
+	    margin: 0;
+	    padding: 0;
+	}
+
+	header {
+	    background-color: #384c7d;
+	    padding: 20px;
+	    text-align: center;
+	    font-size: 24px;
+	    font-weight: bold;
+	}
+
+	section {
+	    margin: 30px;
+	}
+
+	table {
+	    width: 100%;
+	    border-collapse: collapse;
+	    background-color: #b6e7f0;
+	}
+
+	th, td {
+	    padding: 12px;
+	    text-align: left;
+	}
+	
+	th {
+	   background-color: #7b8bba;
+	}
+	
+	tr:nth-child(even) {
+	    background-color: #b6e7f0;
+	}
+
+	tr:hover {
+	    background-color: #7b8bba;
+
+	}
+
+	.dashboard {
+	    display: flex;
+	    gap: 20px;
+	    flex-wrap: wrap;
+	}
+
+	.card {
+	    background-color: #ffffff;
+	    padding: 20px;
+	    margin-bottom: 20px;
+	    border-radius: 8px;
+	    border: 1px solid #000000;
+	    flex: 1;
+	    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+	}
+
+	.attempts-high {
+		color: red;
+	}
+
+	.attempts-normal {
+		color: black;
+	}
+
+	/* Risk levels */
+	.low-risk {
+	    border-left: 6px solid #22c55e; /*green*/
+	}
+
+	.medium-risk {
+	    border-left: 6px solid #facc15; /*yellow*/
+	}
+	
+	.high-risk {
+	    border-left: 6px solid #ef4444; /*red*/
+	}
+
+
+    </style>
+</head>
+
+<body>
+<header>
+    SOC Telemetry Dashboard
+</header>
+<section class="dashboard">
+<div class="card">
+	<h2>Total Events</h2>
+	<p>{{ total_events }}</p> 
+</div>
+<div class="card">
+	<h2>Total Blocked</h2>
+	<p>{{ total_blocked }}</p> 
+</div>
+<div class="card">
+	<h2>Total Passed</h2>
+	<p>{{ total_passed }}</p> 
+</div>
+<div class="card">
+	<h2>Unique Ips</h2>
+	<p>{{ unique_ips }}</p> 
+</div>
+</section>
+<table>
+    <tr>
+        <th>Timestamp</th>
+        <th>Action</th>
+        <th>Protocol</th>
+        <th>IP Version</th>
+        <th>Interface</th>
+        <th>Source IP</th>
+        <th>Source Port</th>
+        <th>Destination IP</th>
+        <th>Destination Port</th>
+        <th>Abuse Score</th>
+        <th>Country</th>
+        <th>ISP</th>
+    </tr>
+	{% for entry in logs %}
+	<tr>
+		<td>{{ entry["timestamp"] }}</td>
+		<td>{{ entry["action"] }}</td>
+		<td>{{ entry["protocol"] }}</td>
+		<td>{{ entry["ip_version"] }}</td>
+		<td>{{ entry["interface"] }}</td>
+		<td>{{ entry["src_ip"] }}</td>
+		<td>{{ entry["src_port"] }}</td>
+		<td>{{ entry["dest_ip"] }}</td>
+		<td>{{ entry["dest_port"] }}</td>
+		<td>{{ entry["abuse_score"] }}</td>
+		<td>{{ entry["country"] }}</td>
+		<td>{{ entry["isp"] }}</td>
+	</tr>
+	{% endfor %}
+</table>
+</body>
+</html>
+	
